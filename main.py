@@ -29,7 +29,7 @@ def main(unused_argv):
       stem, ext = splitext(f)
       if ext != '.md': continue
       loader = UnstructuredMarkdownLoader(join(root, f), model = 'single', strategy = 'fast')
-      text = ' '.join(loader.load())
+      text = ' '.join([doc.page_content for doc in loader.load()])
       results = exp.invoke({'text': text})
       with open(join(FLAGS.output_dir, stem + '.md'), 'w') as f:
         f.write(results)
