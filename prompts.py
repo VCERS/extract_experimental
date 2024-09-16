@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
-from langchain import hub
-from langchain.tools.prompts.prompt import PromptTemplate
+from langchain_core.prompts.prompt import PromptTemplate
 
 def experimental_template(tokenizer):
   messages = [
