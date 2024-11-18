@@ -8,7 +8,7 @@ from tqdm import tqdm
 import json
 from transformers import AutoTokenizer
 from langchain.document_loaders import UnstructuredMarkdownLoader, TextLoader
-from models import TGI
+from models import Qwen2
 from chains import experimental_chain
 
 FLAGS = flags.FLAGS
@@ -21,7 +21,7 @@ def add_options():
 def main(unused_argv):
   if exists(FLAGS.output_dir): rmtree(FLAGS.output_dir)
   mkdir(FLAGS.output_dir)
-  llm = TGI(FLAGS.host)
+  llm = Qwen2(FLAGS.host)
   tokenizer = AutoTokenizer.from_pretrained('Qwen/Qwen2.5-7B-Instruct')
   exp_chain = experimental_chain(llm, tokenizer)
   for root, dirs, files in tqdm(walk(FLAGS.input_dir)):
