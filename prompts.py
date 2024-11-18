@@ -35,7 +35,7 @@ class HFChatPromptTemplate(ChatPromptTemplate):
 
 def experimental_template(tokenizer):
   messages = [
-    ('user', '''Given a full text of a paper. Please return the original text of the experimental part of the paper. If the experimental part is not present in the paper, just return "<no experimental>".
+    ('user', '''Given a full text of a paper. Please return the original text of the experimental part of the paper. If the experimental part is not explicitly described in a certain paragraph, summarize the experimental process based on the full text content.
 
 full text of a paper:
 
