@@ -6,7 +6,8 @@ from os.path import splitext, join, exists
 from absl import flags, app
 from tqdm import tqdm
 import json
-from langchain.document_loaders import UnstructuredMarkdownLoader
+#from langchain_community.document_loaders import UnstructuredMarkdownLoader
+from langchain.document_loaders import UnstructuredMarkdownLoader, TextLoader
 from models import Llama3, Qwen2
 from chains import experimental_chain
 
@@ -27,8 +28,11 @@ def main(unused_argv):
   for root, dirs, files in tqdm(walk(FLAGS.input_dir)):
     for f in files:
       stem, ext = splitext(f)
-      if ext != '.md': continue
-      loader = UnstructuredMarkdownLoader(join(root, f), model = 'single', strategy = 'fast')
+      if ext not in ['.md', '.txt']: continue
+      if ext == '.md':
+        loader = UnstructuredMarkdownLoader(join(root, f), model = 'single', strategy = 'fast')
+      elif ext == '.txt':
+        loader = TextLoader(join(root, f))
       text = ' '.join([doc.page_content for doc in loader.load()])
       results = exp_chain.invoke({'text': text})
       with open(join(FLAGS.output_dir, stem + '.md'), 'w') as f:
